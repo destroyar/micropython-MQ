@@ -79,7 +79,7 @@ class BaseMQ(object):
             print("Calibrating:")
             for i in range(0,MQ_SAMPLE_TIMES + 1):        
                 print("Step {0}".format(i))
-                ro += self.__calculateResistance__(self.pinData.read())
+                ro += self.__calculateResistance__(self.pinData.read_u16())
                 utime.sleep_ms(MQ_SAMPLE_INTERVAL)
                 pass            
             ro = ro/(self.getRoInCleanAir() * MQ_SAMPLE_TIMES )
@@ -131,7 +131,7 @@ class BaseMQ(object):
         if self.measuringStrategy == STRATEGY_ACCURATE :            
                 rs = 0
                 for i in range(0, MQ_SAMPLE_TIMES + 1): 
-                    rs += self.__calculateResistance__(self.pinData.read())
+                    rs += self.__calculateResistance__(self.pinData.read_u16())
                     utime.sleep_ms(MQ_SAMPLE_INTERVAL)
 
                 rs = rs/MQ_SAMPLE_TIMES
@@ -140,7 +140,7 @@ class BaseMQ(object):
                 self._lastMesurement = utime.ticks_ms()                            
                 pass
         else:
-            rs = self.__calculateResistance__(self.pinData.read())
+            rs = self.__calculateResistance__(self.pinData.read_u16())
             self.dataIsReliable = False
             pass
         return rs
